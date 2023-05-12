@@ -1,6 +1,7 @@
 import Answerbox from "../components/Answerbox"
 import Textbox from "../components/Textbox"
 import Likert from "../components/Likert"
+import React from 'react'
 
 const AnnotationPage = () => {
     return (

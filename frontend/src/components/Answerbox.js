@@ -1,3 +1,5 @@
+import React from 'react'
+
 const Answerbox= (props) => {
     return (
         <div> 

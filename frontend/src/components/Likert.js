@@ -1,3 +1,5 @@
+import React from 'react'
+
 const Likert = (props) => {
     return (
         <div className="container">
