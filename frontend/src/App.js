@@ -1,17 +1,19 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
-// pages & components
-import AnnotationPage from './pages/AnnotationPage.js';
+// pages & components  
+import AnnotationPage from './pages/AnnotationPage';
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      <Navbar />
         <div>
           <Routes>
             <Route
               path="/"
-              element={AnnotationPage}
+              element={<AnnotationPage/>}
             />
           </Routes>
         </div>
