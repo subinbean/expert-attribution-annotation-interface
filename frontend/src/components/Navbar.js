@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
+import {Navbar, Container} from 'react-bootstrap';
 
-const Navbar = () => {
+const navbar = () => {
     return (
-        <header>
-            <div className="container">
-                <Link to ="/">
-                    <h1> Expert Attribution Task </h1>
-                </Link>
-            </div>
-        </header>
+        <Navbar bg="primary"> 
+        <Container>
+        <Navbar.Brand> Expert Attribution Task </Navbar.Brand>
+        </Container>
+        </Navbar>
     )
 }
 
-export default Navbar
+export default navbar

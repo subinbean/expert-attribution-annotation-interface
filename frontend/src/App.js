@@ -1,5 +1,4 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import React from 'react'
 
 // pages & components  
 import AnnotationPage from './pages/AnnotationPage';

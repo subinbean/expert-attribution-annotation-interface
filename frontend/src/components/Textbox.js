@@ -1,12 +1,16 @@
 import React from 'react'
+import {Card} from 'react-bootstrap';
 
 const Textbox = (props) => {
     return (
-        <header>
-            <div className="container">
-                <h3> {props.text} </h3>
-            </div>
-        </header>
+        <Card style={{ width: '18rem', marginTop: '20px'}}>
+            <Card.Body>
+                <Card.Title> {props.title + ":"} </Card.Title>
+                <Card.Text>
+                    {props.text}
+                </Card.Text>
+            </Card.Body>
+        </Card>
     )
 }
 
