@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap';
 
 const Textbox = (props) => {
     return (
-        <Card style={{ width: '18rem', marginTop: '20px'}}>
+        <Card style={{ width: '40rem', marginTop: '20px'}}>
             <Card.Body>
                 <Card.Title> {props.title + ":"} </Card.Title>
                 <Card.Text>
@@ -14,4 +14,4 @@ const Textbox = (props) => {
     )
 }
 
-export default Textbox
+export default Textbox 

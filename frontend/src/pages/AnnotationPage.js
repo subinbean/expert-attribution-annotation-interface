@@ -1,21 +1,23 @@
 import Answerbox from "../components/Answerbox"
-import Textbox from "../components/Textbox"
-import Likert from "../components/Likert"
 import React from 'react'
+import QuestionAnswer from "../components/QuestionAnswer"
+import "./pagesStyle.css"
+import ClaimEvidence from "../components/ClaimEvidence"
+import {Button} from 'react-bootstrap';
+import { useNavigate } from "react-router-dom"
 
 const AnnotationPage = () => {
+    const navigate = useNavigate()
+
     return (
         <div align="center"> 
-            <Textbox title="Quesiton" text="This is a question" />
-            <Textbox title="Answer" text="This is an answer" />
-            <Likert text="Usefulness" subtext="useful" />
-            <Textbox title="Claim" text="This is claim 1" />
-            <Textbox title="Evidence" text="This is evidence 1" />
-            <Likert text="Supported by evidence" subtext="supported" />
-            <Answerbox text="If partial support, provide the reason why?" />
-            <Likert text="Informative" subtext="informative" />
-            <Likert text="Worthiness" subtext="worthy" />
-            <Answerbox text="Revised Answer?" />
+            <QuestionAnswer question="This is a question" answer="This is an answer" />
+            <ClaimEvidence claim="This is claim 1" evidence="This is evidence 1" />
+            <Answerbox text="Revised Answer" />
+            <div className="buttons"> 
+                <Button variant='outline-primary' onClick={() => navigate('/welcome')}> Previous </Button>
+                <Button variant='outline-primary' onClick={() => navigate('/submission')}> Submit </Button>
+            </div>
         </div>
     )
 }

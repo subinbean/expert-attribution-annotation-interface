@@ -2,6 +2,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 // pages & components  
 import AnnotationPage from './pages/AnnotationPage';
+import WelcomePage from './pages/WelcomePage';
+import SubmissionPage from './pages/SubmissionPage';
 import Navbar from './components/Navbar'
 
 function App() {
@@ -12,8 +14,16 @@ function App() {
         <div>
           <Routes>
             <Route
-              path="/"
+              path="/question1"
               element={<AnnotationPage/>}
+            />
+            <Route
+              path='/welcome'
+              element={<WelcomePage/>}
+            />
+            <Route
+              path='/submission'
+              element={<SubmissionPage/>}
             />
           </Routes>
         </div>
