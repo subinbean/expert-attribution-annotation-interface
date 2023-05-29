@@ -8,12 +8,7 @@ const app = express()
 mongoose.set('strictQuery',false)
 mongoose.connect(process.env.MONGODB_URI)
 
-const noteSchema = new mongoose.Schema({
-    content: String,
-    important: Boolean,
-  })
-  
-const Note = mongoose.model('Note', noteSchema)
+const Question = require('./schema.js')
 
 // middleware for logging requests
 app.use((req, res, next) => {
@@ -23,8 +18,14 @@ app.use((req, res, next) => {
 
 // routes
 app.get('/api/questions', (request, response) => {
-    Note.find({}).then(notes => {
-        response.json(notes)
+    Question.find({}).then(questions => {
+        response.json(questions)
+    })
+})
+
+app.get('/api/questions/:annotator_id', (request, response) => {
+    Question.find({annotator_id: request.params.annotator_id}).then(questions => {
+        response.json(questions)
     })
 })
 
