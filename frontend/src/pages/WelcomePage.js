@@ -1,11 +1,12 @@
-import React from 'react'
+import {useState} from 'react'
 import "./pagesStyle.css"
-import {Button} from 'react-bootstrap';
 import { useNavigate } from "react-router-dom"
-import {Card} from 'react-bootstrap';
+import {Card, Button, Form} from 'react-bootstrap';
 
 const WelcomePage = () => {
     const navigate = useNavigate()
+
+    const [prolificId, setProlificId] = useState('')
 
     return (
         <div align="center"> 
@@ -40,12 +41,17 @@ const WelcomePage = () => {
 
                         <p> The current task is the <b> stage 2 </b> of the study. </p>
 
-                        Please proceed to the next page to begin task 2:
+                        Please enter your prolific ID down below to begin task 2:
+                        <Form style={{marginTop: '10px', width: '400px'}}>
+                            <Form.Group className="mb-3">
+                                <Form.Control placeholder="Enter Prolific ID" value={prolificId} onChange={text => setProlificId(text.target.value)}/>
+                            </Form.Group>
+                        </Form>
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <div className="buttons"> 
-                <Button variant='outline-primary' onClick={() => navigate('/question1')}> Next </Button>
+            <div className="buttons">
+                <Button variant='outline-primary' onClick={() => navigate('/question1', {state: {id: prolificId}})}> Submit and start task </Button>
             </div>
         </div>
     )

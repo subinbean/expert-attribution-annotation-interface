@@ -6,7 +6,7 @@ const Likert = (props) => {
     props.options?.map(option => options.push(
         <div>
             <input type="radio" id={option} name='option'/>
-            <label for={option}> {option} </label><br></br>
+            <label for={option} style={{marginLeft: '10px'}}> {option} </label><br></br>
         </div>
     ))
     return (
