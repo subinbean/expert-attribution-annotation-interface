@@ -18,7 +18,7 @@ function App() {
               element={<AnnotationPage/>}
             />
             <Route
-              path='/welcome'
+              path='/'
               element={<WelcomePage/>}
             />
             <Route

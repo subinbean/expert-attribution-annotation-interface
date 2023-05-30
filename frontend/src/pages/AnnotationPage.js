@@ -1,5 +1,6 @@
 import Answerbox from "../components/Answerbox"
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 import QuestionAnswer from "../components/QuestionAnswer"
 import "./pagesStyle.css"
 import ClaimEvidence from "../components/ClaimEvidence"
@@ -10,6 +11,14 @@ const AnnotationPage = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
 
+    useEffect(() => {
+        console.log('This is called')
+        axios.get(`http://localhost:4000/api/questions/${location.state.id}`)
+        .then(response => {
+            console.log(response)
+        })
+    }, [location.state.id])
+    
     return (
         <div align="center"> 
             <QuestionAnswer question="This is a question" answer="This is an answer" />
