@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap';
 
 const Answerbox= (props) => {
     return (
-    <Card style={{ width: '40rem', marginTop: '20px'}}>
+    <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
         <Card.Body>
             <Card.Title> {props.text + ":"} </Card.Title>
             <Card.Text>

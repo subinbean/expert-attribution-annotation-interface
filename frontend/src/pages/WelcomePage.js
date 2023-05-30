@@ -2,11 +2,19 @@ import {useState} from 'react'
 import "./pagesStyle.css"
 import { useNavigate } from "react-router-dom"
 import {Card, Button, Form} from 'react-bootstrap';
+import axios from 'axios'
 
 const WelcomePage = () => {
     const navigate = useNavigate()
 
     const [prolificId, setProlificId] = useState('')
+
+    const onClick = () => {
+        axios.get(`http://localhost:4000/api/questions/${prolificId}`)
+        .then(response => {
+            navigate('/question1', {state: {data: response.data}})
+        }).catch(error => console.log(error))
+    }
 
     return (
         <div align="center"> 
@@ -51,7 +59,7 @@ const WelcomePage = () => {
                 </Card.Body>
             </Card>
             <div className="buttons">
-                <Button variant='outline-primary' onClick={() => navigate('/question1', {state: {id: prolificId}})}> Submit and start task </Button>
+                <Button variant='outline-primary' onClick={onClick}> Submit and start task </Button>
             </div>
         </div>
     )

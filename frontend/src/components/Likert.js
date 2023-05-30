@@ -10,7 +10,7 @@ const Likert = (props) => {
         </div>
     ))
     return (
-        <Card style={{ width: '40rem', marginTop: '20px'}}>
+        <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
             <Card.Body>
                 <Card.Title> {props.title} </Card.Title>
                 <Card.Text>
