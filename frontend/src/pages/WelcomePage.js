@@ -12,7 +12,7 @@ const WelcomePage = () => {
     const onClick = () => {
         axios.get(`http://localhost:4000/api/questions/${prolificId}`)
         .then(response => {
-            navigate('/question1', {state: {data: response.data}})
+            navigate('/questions', {state: {data: response.data}})
         }).catch(error => console.log(error))
     }
 
@@ -58,9 +58,7 @@ const WelcomePage = () => {
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <div className="buttons">
-                <Button variant='outline-primary' onClick={onClick}> Submit and start task </Button>
-            </div>
+                <Button variant='outline-primary' onClick={onClick} style={{ marginTop: '20px'}}> Submit and start task </Button>
         </div>
     )
 }
