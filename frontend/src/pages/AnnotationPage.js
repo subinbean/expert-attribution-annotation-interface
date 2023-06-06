@@ -1,9 +1,8 @@
-import Answerbox from "../components/Answerbox"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import QuestionAnswer from "../components/QuestionAnswer"
 import "./pagesStyle.css"
 import ClaimEvidence from "../components/ClaimEvidence"
-import {Button, Alert, ProgressBar} from 'react-bootstrap';
+import {Button, Alert, ProgressBar, Card, Form} from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom"
 
 const AnnotationPage = (props) => {
@@ -11,8 +10,17 @@ const AnnotationPage = (props) => {
     const location = useLocation()
     const data = location.state.data
     console.log(data)
+    const [seconds, setSeconds] = useState(0)
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
+    const [revisedClaims, setRevisedClaims] = useState(data[currentQuestion].claims.map(claim => claim.claim_string))
+
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setSeconds(seconds => seconds + 1)
+        }, 1000)
+        return () => clearInterval(interval);
+    }, [seconds])
 
     const buttonInstructions = () => {
         if (currentClaim < data[currentQuestion].claims.length - 1) {
@@ -78,15 +86,26 @@ const AnnotationPage = (props) => {
                 </p>
                 <ProgressBar variant='primary' now={(currentClaim + 1) * 100.0 / data[currentQuestion].claims.length} style={{ width: '38rem', marginTop: '20px'}} />
                 </Alert> 
-                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} /> 
+                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} /> 
                 </div>
         }
         else {
             return <div>
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                <b> Answer Revision </b> : After annotating each claim, we would like you to <b> revise the original answer </b> produced by the AI system. The text box is pre-filled with the original answer, and we ask you to edit the answer to be <b> factual </b> and <b> supported by the evidence presented.</b> Rely on your own annotations of the individual claims to revise the answer. Note that all informative claims, worthy of citations, need to be cited.
+                5) <b> Answer Revision </b> : Based on the changes to the individual claims, this is your edited answer. Would you like to add, edit or delete it any further? Note that we require the answer to be factual, complete and supported by evidence.
             </Alert>
-            <Answerbox text="Revised Answer" />
+            <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+                <Card.Body>
+                    <Card.Title> {'Revise answer below:'} </Card.Title>
+                    <Card.Text>
+                        <Form style={{marginTop: '21px', width: '400px' }}>
+                            <Form.Group className="mb-3">
+                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims ? revisedClaims.join(' ') : ''} />
+                            </Form.Group>
+                        </Form>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
             </div>
         }
     }
@@ -101,6 +120,7 @@ const AnnotationPage = (props) => {
                  Current Question: {currentQuestion + 1} out of {data.length}
             <ProgressBar variant='primary' now={(currentQuestion + 1) * 100.0 / data.length} style={{ width: '38rem', marginTop: '20px', marginBottom: '20px'}} />
             <p> Follow the instructions carefully! </p>
+            <p> {seconds} seconds has elapsed </p>
             </Alert>
             <QuestionAnswer question={data[currentQuestion].question_string} answer={data[currentQuestion].answer_string} />
             {renderClaimEvidence()}
@@ -108,8 +128,8 @@ const AnnotationPage = (props) => {
                 {buttonInstructions()}
             </Alert>
             <div className="buttons"> 
-                <Button variant='outline-primary' style={{marginLeft: '315px'}}onClick={() => navigate('/')}> Previous </Button>
-                <Button variant='outline-primary' style={{marginRight: '20px'}}onClick={buttonAction()}> {buttonText()} </Button>
+                <Button variant='outline-primary' style={{marginRight: '216px'}}onClick={() => navigate('/')}> Previous </Button>
+                <Button variant='outline-primary' style={{marginLeft: '216px'}}onClick={buttonAction()}> {buttonText()} </Button>
             </div>
         </div>
     )

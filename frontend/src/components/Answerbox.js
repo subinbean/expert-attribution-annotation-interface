@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card} from 'react-bootstrap';
+import {Card, Form} from 'react-bootstrap';
 
 const Answerbox= (props) => {
     return (
@@ -7,7 +7,11 @@ const Answerbox= (props) => {
         <Card.Body>
             <Card.Title> {props.text + ":"} </Card.Title>
             <Card.Text>
-            <input type="text" id="textbox"/>
+                <Form style={{marginTop: '21px', width: '400px' }}>
+                    <Form.Group className="mb-3">
+                        <Form.Control as='textarea' defaultValue={props.default ? props.default : ''}/>
+                    </Form.Group>
+                </Form>
             </Card.Text>
         </Card.Body>
     </Card>

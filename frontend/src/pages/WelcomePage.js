@@ -52,7 +52,7 @@ const WelcomePage = () => {
                         Please enter your prolific ID down below to begin task 2:
                         <Form style={{marginTop: '10px', width: '400px'}}>
                             <Form.Group className="mb-3">
-                                <Form.Control placeholder="Enter Prolific ID" value={prolificId} onChange={text => setProlificId(text.target.value)}/>
+                                <Form.Control placeholder="Enter Prolific ID" onChange={text => setProlificId(text.target.value)}/>
                             </Form.Group>
                         </Form>
                     </Card.Text>

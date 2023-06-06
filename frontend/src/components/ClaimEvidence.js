@@ -1,10 +1,23 @@
 import Textbox from "./Textbox"
 import Likert from "./Likert"
 import Answerbox from "./Answerbox";
-import {Alert} from 'react-bootstrap';
+import {Alert, Card, Form} from 'react-bootstrap';
 import "./componentStyle.css"
 
 const ClaimEvidence = (props) => {
+
+    const reviseClaim = (text) => {
+        const newClaim = props.revisedClaims.map((c, i) => {
+            if (i === props.currentClaim) {
+                return text.target.value;
+            }
+            else {
+                return c;
+            }
+        })
+        props.setRevisedClaims(newClaim)
+    }
+
     return (
         <div>
             <Textbox title="Claim" text={props.claim} />
@@ -26,6 +39,15 @@ const ClaimEvidence = (props) => {
                 If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. 
             </Alert>
             <Answerbox text="If partial support, provide the reason why" />
+            <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+                <p> <b>Reliability of Source: </b> Is the evidence found on a website you would consider reliable? </p>
+                <ol>
+                    <li> Reliable: Very reliable source. </li>
+                    <li> Somewhat reliable: It isn’t the most trustworthy source, but the source often contains factual information. </li>
+                    <li> Not reliable at all: This isn’t a source I would trust for work in my profession. </li>
+                </ol>
+            </Alert>
+            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all']} />
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Informative: </b>  Is the claim relevant to answering the question? </p>
                 <ol>
@@ -59,8 +81,28 @@ const ClaimEvidence = (props) => {
                 </p>
             </Alert>
             <Likert title="Correctness" options={['Definitely correct', 'Probably correct', 'Unsure', 'Likely incorrect', 'Definitely incorrect']} />
+            <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+            <p> 4) <b> Claim Revision: </b> After annotating each claim, you will be presented a revised answer with your edited claims. The text box is pre-filled with the edited claims, and we ask you to further edit the answer to be factual, complete and supported by evidence. </p>
+            <p> Note that all informative claims, worthy of citations, deserve to be cited. However, finding evidence for claims is non-trivial, so we request that you make a best-effort attempt at providing evidence for claims where it’s missing or incorrect.  
+            </p>
+            </Alert>
+            <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+                <Card.Body>
+                    <Card.Title> {'Revise claim below:'} </Card.Title>
+                    <Card.Text>
+                        <Form style={{marginTop: '21px', width: '400px' }}>
+                            <Form.Group className="mb-3">
+                                <div key={props.claim}>
+                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim} onChange={reviseClaim}/>
+                                </div>
+                            </Form.Group>
+                        </Form>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
         </div>
     )
 }
 
 export default ClaimEvidence
+
