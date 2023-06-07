@@ -31,12 +31,24 @@ const ClaimEvidence = (props) => {
                     <li> Incomplete: The evidence does not entail the claim at all. </li>
                 </ol>
                 <p>
-                Note that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support.
+                Note that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support. While judging support, you may be directed to very long documents. Please only skim the article and use Ctrl+F keyword searches to find relevant evidence.
+                </p>
+                <p>
+                If the evidence includes multiple documents, please judge the support for the claim collectively using all documents.
+                </p>
+                <p>
+                If the claim does not contain any accompanying evidence, please mark it as <b>“Missing”</b>.
+                </p>
+                <p>
+                If the evidence directs you to a link that is inaccessible, please mark it as <b>“N/A”.</b>
+                </p>
+                <p>
+                If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
                 </p>
             </Alert>
             <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete']} />
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. 
+                If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
             </Alert>
             <Answerbox text="If partial support, provide the reason why" />
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
@@ -70,21 +82,22 @@ const ClaimEvidence = (props) => {
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Correctness: </b> Is the claim factually correct?</p>
                 <ol>
-                    <li> Definitely correct </li>
-                    <li> Probably correct </li>
-                    <li> Unsure </li>
-                    <li> Likely incorrect </li>
-                    <li> Definitely incorrect </li>
+                    <li> Definitely correct: Absolutely sure that every word of the claim is correct. </li>
+                    <li> Probably correct: Not completely sure, but it is likely that this claim is entirely correct. </li>
+                    <li> Unsure: Cannot make an informed judgment about the claim. </li>
+                    <li> Likely incorrect: Not completely sure, but there are parts in the claim that are likely incorrect. </li>
+                    <li> Definitely incorrect: Absolutely sure that there is at least a part of the claim that is incorrect. </li>
                 </ol>
                 <p>
-                Judge whether the claim is factually correct. This can be based on your own expertise, the evidence returned by the system as well as minimal browsing on the internet to verify correctness. Please don’t spend longer than 2-3 minutes verifying the correctness of each claim.
+                Judge whether the claim is factually correct. This can be based on your own expertise, the evidence returned by the system as well as minimal browsing on the internet to verify correctness. Note that for a claim to be definitely correct, you would need to be sure of every single aspect of that claim.
+                </p>
+                <p>
+                Please don’t spend longer than 2-3 minutes verifying the correctness of each claim.
                 </p>
             </Alert>
             <Likert title="Correctness" options={['Definitely correct', 'Probably correct', 'Unsure', 'Likely incorrect', 'Definitely incorrect']} />
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-            <p> 4) <b> Claim Revision: </b> After annotating each claim, you will be presented a revised answer with your edited claims. The text box is pre-filled with the edited claims, and we ask you to further edit the answer to be factual, complete and supported by evidence. </p>
-            <p> Note that all informative claims, worthy of citations, deserve to be cited. However, finding evidence for claims is non-trivial, so we request that you make a best-effort attempt at providing evidence for claims where it’s missing or incorrect.  
-            </p>
+            4) <b> Claim Revision: </b> Please edit the above claim to ensure that it is factually correct and is supported by reliable references. If the claim is not informative, simply delete the text in the edited claim textbox.
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <Card.Body>

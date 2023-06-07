@@ -11,9 +11,14 @@ const QuestionAnswer = (props) => {
             <Textbox title="Question" text={props.question} />
             <Textbox title="Answer" text={props.answer} />
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                2) Judge whether the answer is useful to the question. Usefulness should be 
+                <p> 2) Judge whether the answer is useful to the question. Usefulness should be 
                 measured based on whether the answer is <b> at least partially answering the question. 
-                </b> If the answer is not useful at all, you can skip this question.
+                </b> If the answer is not useful at all, you can skip this question. </p>
+                <ol>
+                    <li> Useful: Answers most/all of the question. </li>
+                    <li> Partially useful: Answers a subset of the question, or answers the question partially. </li>
+                    <li> Not useful at all: Completely irrelevant to what the question asked for. </li>
+                </ol>
             </Alert> 
             <Likert title='Usefulness' options={['Useful', 'Partially useful', 'Not useful at all']} />
         </div>

@@ -92,7 +92,13 @@ const AnnotationPage = (props) => {
         else {
             return <div>
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                5) <b> Answer Revision </b> : Based on the changes to the individual claims, this is your edited answer. Would you like to add, edit or delete it any further? Note that we require the answer to be factual, complete and supported by evidence.
+                <p> 5) <b> Answer Revision </b> : Based on the changes to the individual claims, this is your edited answer. Would you like to add, edit or delete it any further? Note that we require the answer to be <b>factual</b>, <b>complete</b> and <b> supported by evidence.</b></p>
+                <p>
+                After annotating each claim, you will be presented a revised answer with your edited claims. The text box is pre-filled with the edited claims, and we ask you to further edit the answer to be <b>factual</b>, <b>complete</b> and <b> supported by evidence.</b>
+                </p>
+                <p>
+                Note that all informative claims, worthy of citations, deserve to be cited. However, finding evidence for claims is non-trivial, so we request that you make a best-effort attempt at providing evidence for claims where it’s missing or incorrect.
+                </p>
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <Card.Body>
@@ -120,7 +126,6 @@ const AnnotationPage = (props) => {
                  Current Question: {currentQuestion + 1} out of {data.length}
             <ProgressBar variant='primary' now={(currentQuestion + 1) * 100.0 / data.length} style={{ width: '38rem', marginTop: '20px', marginBottom: '20px'}} />
             <p> Follow the instructions carefully! </p>
-            <p> {seconds} seconds has elapsed </p>
             </Alert>
             <QuestionAnswer question={data[currentQuestion].question_string} answer={data[currentQuestion].answer_string} />
             {renderClaimEvidence()}
