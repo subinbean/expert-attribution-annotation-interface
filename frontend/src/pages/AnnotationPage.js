@@ -9,7 +9,7 @@ const AnnotationPage = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const data = location.state.data
-    console.log(data)
+    // console.log(data)
     const [seconds, setSeconds] = useState(0)
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
