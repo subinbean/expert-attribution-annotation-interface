@@ -6,11 +6,11 @@ import axios from 'axios'
 
 const WelcomePage = () => {
     const navigate = useNavigate()
-
     const [prolificId, setProlificId] = useState('')
+    const baseUrl = `/api/questions/${prolificId}`
 
     const onClick = () => {
-        axios.get(`http://localhost:4000/api/questions/${prolificId}`)
+        axios.get(baseUrl)
         .then(response => {
             navigate('/questions', {state: {data: response.data}})
         }).catch(error => console.log(error))
