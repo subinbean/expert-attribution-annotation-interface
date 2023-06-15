@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const claim = new mongoose.Schema({
     claim_string: String,
-    evidence: String,
+    evidence: [String],
     support: Number,
     reason_missing_support: String,
     informativeness: Number,
