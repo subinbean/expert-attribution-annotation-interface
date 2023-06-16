@@ -18,6 +18,13 @@ const ClaimEvidence = (props) => {
         props.setRevisedClaims(newClaim)
     }
 
+    const claimRevisionDefault = (
+        <div> 
+            {props.claim}
+            {props.evidence.map(e => <div> e </div>)}
+        </div>
+    )
+
     return (
         <div>
             <Textbox title="Claim" text={props.claim} />
@@ -42,11 +49,8 @@ const ClaimEvidence = (props) => {
                 <p>
                 If the evidence directs you to a link that is inaccessible, please mark it as <b>“N/A”.</b>
                 </p>
-                <p>
-                If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
-                </p>
             </Alert>
-            <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete']} />
+            <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete', 'Missing', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='support' />
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
             </Alert>
@@ -59,7 +63,7 @@ const ClaimEvidence = (props) => {
                     <li> Not reliable at all: This isn’t a source I would trust for work in my profession. </li>
                 </ol>
             </Alert>
-            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all']} />
+            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reliability'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Informative: </b>  Is the claim relevant to answering the question? </p>
                 <ol>
@@ -69,7 +73,7 @@ const ClaimEvidence = (props) => {
                     <li> Uninformative: The claim makes a peripheral point that is not relevant to answering the question. </li>
                 </ol>
             </Alert>
-            <Likert title="Informative" options={['Very relevant', 'A bit relevant', 'Not too important', 'Uninformative']} />
+            <Likert title="Informative" options={['Very relevant', 'A bit relevant', 'Not too important', 'Uninformative']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='informativeness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Worthiness: </b>  Is the claim necessary to be cited? </p>
                 <p> Note that if the claim states a commonly known fact or common sense, then it might not need to be supported by evidence. </p>
@@ -78,7 +82,7 @@ const ClaimEvidence = (props) => {
                     <li> Does not need evidence </li>
                 </ol>
             </Alert>
-            <Likert title="Worthiness" options={['Needs evidence', 'Does not need evidence']} />
+            <Likert title="Worthiness" options={['Needs evidence', 'Does not need evidence']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='worthiness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Correctness: </b> Is the claim factually correct?</p>
                 <ol>
@@ -95,7 +99,7 @@ const ClaimEvidence = (props) => {
                 Please don’t spend longer than 2-3 minutes verifying the correctness of each claim.
                 </p>
             </Alert>
-            <Likert title="Correctness" options={['Definitely correct', 'Probably correct', 'Unsure', 'Likely incorrect', 'Definitely incorrect']} />
+            <Likert title="Correctness" options={['Definitely correct', 'Probably correct', 'Unsure', 'Likely incorrect', 'Definitely incorrect']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='correctness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
             4) <b> Claim Revision: </b> Please edit the above claim to ensure that it is factually correct and is supported by reliable references. If the claim is not informative, simply delete the text in the edited claim textbox.
             </Alert>
@@ -106,7 +110,7 @@ const ClaimEvidence = (props) => {
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
                                 <div key={props.claim}>
-                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim} onChange={reviseClaim}/>
+                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim + '\n\n' + props.evidence} onChange={reviseClaim}/>
                                 </div>
                             </Form.Group>
                         </Form>

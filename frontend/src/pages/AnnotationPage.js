@@ -9,11 +9,22 @@ const AnnotationPage = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const data = location.state.data
-    // console.log(data)
     const [seconds, setSeconds] = useState(0)
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
     const [revisedClaims, setRevisedClaims] = useState(data[currentQuestion].claims.map(claim => claim.claim_string))
+    const [questionAnnotation, setQuestionAnnotation] = useState({
+        usefulness: '',
+        revised_answer: '',
+    })
+    const [claimAnnotation, setClaimAnnotation] = useState({
+        support: '',
+        reason_missing_support: '',
+        reliability: '',
+        informativeness: '',
+        worthiness: '',
+        correctness: '' 
+    })
 
     useEffect(() => {
         let interval = setInterval(() => {
@@ -52,6 +63,7 @@ const AnnotationPage = (props) => {
     const buttonAction = () => {
         if (currentClaim <= data[currentQuestion].claims.length - 1) {
             return () => {
+                console.log(claimAnnotation)
                 const element = document.getElementById('claim-evidence-section')
                 element.scrollIntoView({ behavior: 'smooth'})
                 setCurrentClaim(currentClaim + 1)
@@ -86,7 +98,7 @@ const AnnotationPage = (props) => {
                 </p>
                 <ProgressBar variant='primary' now={(currentClaim + 1) * 100.0 / data[currentQuestion].claims.length} style={{ width: '38rem', marginTop: '20px'}} />
                 </Alert> 
-                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} /> 
+                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} claimAnnotation={claimAnnotation} setClaimAnnotation={setClaimAnnotation}/> 
                 </div>
         }
         else {

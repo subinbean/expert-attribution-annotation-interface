@@ -5,7 +5,7 @@ const navbar = () => {
     return (
         <Navbar bg="light"> 
         <Container>
-        <Navbar.Brand> Expert Attribution Task </Navbar.Brand>
+        <Navbar.Brand> Expert Attribution </Navbar.Brand>
         </Container>
         </Navbar>
     )

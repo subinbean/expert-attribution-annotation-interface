@@ -3,9 +3,16 @@ import {Card} from 'react-bootstrap';
 
 const Likert = (props) => {
     const options = []
+    const changeFunction = (event) => {
+        const newState = {
+            ...props.state,
+        }
+        newState[props.toChange] = event.target.value
+        props.setState(newState)
+    }
     props.options?.map(option => options.push(
-        <div>
-            <input type="radio" id={option} name='option'/>
+        <div onChange={changeFunction}>
+            <input type="radio" value={option} id={option} name='option'/>
             <label for={option} style={{marginLeft: '10px'}}> {option} </label><br></br>
         </div>
     ))
@@ -14,7 +21,11 @@ const Likert = (props) => {
             <Card.Body>
                 <Card.Title> {props.title} </Card.Title>
                 <Card.Text>
-                    {options}
+                    <form>
+                    <fieldset id={props.title}>
+                        {options}
+                    </fieldset>
+                    </form>
                 </Card.Text>
             </Card.Body>
         </Card>
