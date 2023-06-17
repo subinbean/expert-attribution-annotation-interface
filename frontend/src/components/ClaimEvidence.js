@@ -18,13 +18,6 @@ const ClaimEvidence = (props) => {
         props.setRevisedClaims(newClaim)
     }
 
-    const claimRevisionDefault = (
-        <div> 
-            {props.claim}
-            {props.evidence.map(e => <div> e </div>)}
-        </div>
-    )
-
     return (
         <div>
             <Textbox title="Claim" text={props.claim} />
@@ -54,7 +47,7 @@ const ClaimEvidence = (props) => {
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
             </Alert>
-            <Answerbox text="If partial support, provide the reason why" />
+            <Answerbox text="If partial support, provide the reason why" state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reason_missing_support'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Reliability of Source: </b> Is the evidence found on a website you would consider reliable? </p>
                 <ol>
@@ -110,7 +103,7 @@ const ClaimEvidence = (props) => {
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
                                 <div key={props.claim}>
-                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim + '\n\n' + props.evidence} onChange={reviseClaim}/>
+                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim + '\n\n' + props.evidence.join('\n')} onChange={reviseClaim}/>
                                 </div>
                             </Form.Group>
                         </Form>
