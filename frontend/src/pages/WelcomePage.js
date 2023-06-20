@@ -9,7 +9,8 @@ const WelcomePage = () => {
     const [prolificId, setProlificId] = useState('')
     const baseUrl = `/api/questions/${prolificId}`
 
-    const onClick = () => {
+    const onClick = (e) => {
+        e.preventDefault()
         axios.get(baseUrl)
         .then(response => {
             navigate('/questions', {state: {data: response.data}})
@@ -50,7 +51,7 @@ const WelcomePage = () => {
                         <p> The current task is the <b> stage 2 </b> of the study. </p>
 
                         Please enter your prolific ID down below to begin task 2:
-                        <Form style={{marginTop: '10px', width: '400px'}}>
+                        <Form style={{marginTop: '10px', width: '400px'}} onSubmit={onClick}>
                             <Form.Group className="mb-3">
                                 <Form.Control placeholder="Enter Prolific ID" onChange={text => setProlificId(text.target.value)}/>
                             </Form.Group>
@@ -58,7 +59,7 @@ const WelcomePage = () => {
                     </Card.Text>
                 </Card.Body>
             </Card>
-                <Button variant='outline-primary' onClick={onClick} style={{ marginTop: '20px'}}> Submit and start task </Button>
+                <Button variant='outline-primary' onClick={onClick} style={{ marginTop: '20px'}} > Submit and start task </Button>
         </div>
     )
 }

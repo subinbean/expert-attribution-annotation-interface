@@ -20,7 +20,7 @@ const QuestionAnswer = (props) => {
                     <li> Not useful at all: Completely irrelevant to what the question asked for. </li>
                 </ol>
             </Alert> 
-            <Likert title='Usefulness' options={['Useful', 'Partially useful', 'Not useful at all']} />
+            <Likert title='Usefulness' options={['Useful', 'Partially useful', 'Not useful at all']} state={props.questionAnnotation} setState={props.setQuestionAnnotation} toChange='usefulness'/>
         </div>
     )
 }

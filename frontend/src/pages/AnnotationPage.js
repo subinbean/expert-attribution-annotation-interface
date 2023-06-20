@@ -63,7 +63,8 @@ const AnnotationPage = (props) => {
     const buttonAction = () => {
         if (currentClaim <= data[currentQuestion].claims.length - 1) {
             return () => {
-                console.log(claimAnnotation)
+                console.log(revisedClaims)
+                // console.log(claimAnnotation)
                 const element = document.getElementById('claim-evidence-section')
                 element.scrollIntoView({ behavior: 'smooth'})
                 setCurrentClaim(currentClaim + 1)
@@ -71,8 +72,12 @@ const AnnotationPage = (props) => {
         }
         else if (currentQuestion < data.length - 1) {
             return () => {
+                console.log(revisedClaims)
                 setCurrentClaim(0)
+                setRevisedClaims(data[currentQuestion + 1].claims.map(claim => claim.claim_string))
                 setCurrentQuestion(currentQuestion + 1)
+
+                console.log(questionAnnotation)
                 window.scrollTo(0, 0)
             }
         }
@@ -81,6 +86,14 @@ const AnnotationPage = (props) => {
                 navigate('/submission')
             }
         }
+    }
+
+    const answerChange = (event) => {
+        const newState = {
+            ...questionAnnotation,
+        }
+        newState['revised_answer'] = event.target.value
+        setQuestionAnnotation(newState)
     }
 
     const renderClaimEvidence = () => {
@@ -118,7 +131,7 @@ const AnnotationPage = (props) => {
                     <Card.Text>
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
-                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims ? revisedClaims.join(' ') : ''} />
+                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims ? revisedClaims.join('\n\n') : ''} onChange={answerChange}/> 
                             </Form.Group>
                         </Form>
                     </Card.Text>
@@ -139,7 +152,7 @@ const AnnotationPage = (props) => {
             <ProgressBar variant='primary' now={(currentQuestion + 1) * 100.0 / data.length} style={{ width: '38rem', marginTop: '20px', marginBottom: '20px'}} />
             <p> Follow the instructions carefully! </p>
             </Alert>
-            <QuestionAnswer question={data[currentQuestion].question_string} answer={data[currentQuestion].answer_string} />
+            <QuestionAnswer question={data[currentQuestion].question_string} answer={data[currentQuestion].answer_string} questionAnnotation={questionAnnotation} setQuestionAnnotation={setQuestionAnnotation}/>
             {renderClaimEvidence()}
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 {buttonInstructions()}
