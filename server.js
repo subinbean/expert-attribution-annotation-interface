@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 const Question = require('./schema.js')
 
-// middleware for logging requests
+app.use(express.json())
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
@@ -27,10 +27,10 @@ app.use(express.static('build'))
 // })
 
 // get all questions and claim data from a specific annotator (given an id)
-app.get('/api/questions/:annotator_id', (request, response) => {
+app.get('/api/questions/:annotator_id', (request, response, next) => {
     Question.find({annotator_id: request.params.annotator_id}).then(questions => {
         response.json(questions)
-    })
+    }).catch(error => next(error))
 })
 
 // annotate question
