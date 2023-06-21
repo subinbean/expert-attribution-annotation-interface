@@ -16,6 +16,11 @@ const ClaimEvidence = (props) => {
             }
         })
         props.setRevisedClaims(newClaim)
+        const newState = {
+            ...props.questionAnnotation,
+        }
+        newState['revised_answer'] = newClaim.join('\n\n')
+        props.setQuestionAnnotation(newState)
     }
 
     return (

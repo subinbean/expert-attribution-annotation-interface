@@ -111,7 +111,7 @@ const AnnotationPage = (props) => {
                 </p>
                 <ProgressBar variant='primary' now={(currentClaim + 1) * 100.0 / data[currentQuestion].claims.length} style={{ width: '38rem', marginTop: '20px'}} />
                 </Alert> 
-                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} claimAnnotation={claimAnnotation} setClaimAnnotation={setClaimAnnotation}/> 
+                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} claimAnnotation={claimAnnotation} setClaimAnnotation={setClaimAnnotation} questionAnnotation={questionAnnotation} setQuestionAnnotation={setQuestionAnnotation}/> 
                 </div>
         }
         else {

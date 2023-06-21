@@ -3,11 +3,12 @@ const mongoose = require('mongoose')
 const claim = new mongoose.Schema({
     claim_string: String,
     evidence: [String],
-    support: Number,
+    support: String,
     reason_missing_support: String,
-    informativeness: Number,
-    worthiness: Number,
-    correctness: Number 
+    reliability: String,
+    informativeness: String,
+    worthiness: String,
+    correctness: String 
 })
 
 const question = new mongoose.Schema({
@@ -21,10 +22,9 @@ const question = new mongoose.Schema({
         question_type: String,
         field: String,
         specific_field: String,
-
     },
     claims: [claim],
-    usefulness: Number,
+    usefulness: String,
     revised_answer: String,
 })
 
