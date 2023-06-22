@@ -8,7 +8,7 @@ const claim = new mongoose.Schema({
     reliability: String,
     informativeness: String,
     worthiness: String,
-    correctness: String 
+    correctness: String,
 })
 
 const question = new mongoose.Schema({
@@ -26,6 +26,7 @@ const question = new mongoose.Schema({
     claims: [claim],
     usefulness: String,
     revised_answer: String,
+    time_spent: Number
 })
 
 module.exports = mongoose.model('Question', question)

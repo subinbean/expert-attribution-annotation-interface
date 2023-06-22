@@ -36,7 +36,7 @@ app.get('/api/questions/:annotator_id', (request, response, next) => {
 // annotate question
 app.patch('/api/annotate/question/:question_id', (request, response) => {
     const body = request.body
-    Question.findByIdAndUpdate(request.params.question_id, {$set: {'usefulness' : body.usefulness, 'revised_answer': body.revised_answer}}).then(question => {
+    Question.findByIdAndUpdate(request.params.question_id, {$set: {'usefulness' : body.usefulness, 'revised_answer': body.revised_answer, 'time_spent': body.time_spent}}).then(question => {
         response.json(question)
     }).catch(error => response.json(error))
 })
