@@ -4,6 +4,7 @@ import "./pagesStyle.css"
 import ClaimEvidence from "../components/ClaimEvidence"
 import {Button, Alert, ProgressBar, Card, Form} from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom"
+import axios from 'axios'
 
 const AnnotationPage = (props) => {
     const navigate = useNavigate()
@@ -13,6 +14,7 @@ const AnnotationPage = (props) => {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
     const [revisedClaims, setRevisedClaims] = useState(data[currentQuestion].claims.map(claim => claim.claim_string))
+    const [revisedEvidences, setRevisedEvidences] = useState(data[currentQuestion].claims.map(claim => claim.evidence))
     const emptyQuestion = {
         usefulness: '',
         revised_answer: '',
@@ -61,6 +63,7 @@ const AnnotationPage = (props) => {
     }
 
     const buttonAction = () => {
+        // submit claim
         if (currentClaim <= data[currentQuestion].claims.length - 1) {
             return () => {
                 // validation logic
@@ -77,15 +80,27 @@ const AnnotationPage = (props) => {
                 }
                 setMissingFields([])
 
+                console.log(claimAnnotation)
+
+                // api call
+                axios.patch(`/api/annotate/question/${data[currentQuestion]._id}/claim/${currentClaim}`, claimAnnotation).then(response => {
+                    console.log(response)
+                }).catch(error => console.log(error))
+
+                // rescroll & state updates
                 const element = document.getElementById('claim-evidence-section')
                 element.scrollIntoView({ behavior: 'smooth'})
                 setCurrentClaim(currentClaim + 1)
                 setClaimAnnotation(emptyClaim)
+                console.log(revisedClaims)
+                console.log(revisedEvidences)
             }
         }
+        // submit question
         else {
             if (currentQuestion < data.length - 1) {
                 return () => {
+                    // validation logic
                     if (questionAnnotation.usefulness === '') {
                         setMissingFields(missingFields.concat('Usefulness'))
                         return () => {}
@@ -93,17 +108,32 @@ const AnnotationPage = (props) => {
                     if (missingFields.length > 0) {
                         setMissingFields([])
                     }
+
+                    console.log(questionAnnotation)
+
+                    /// api call
+                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
+                    const endTime = new Date()
+
+                    axios.patch(`/api/annotate/question/${data[currentQuestion]._id}`, {
+                        usefulness: questionAnnotation.usefulness,
+                        revised_answer: revisedAnswer,
+                        time_spent: endTime - seconds
+                    }).then (response => {
+                        console.log(response)
+                    }).catch(error => console.log(error))
+
+                    // rescroll & state updates
+                    setSeconds(endTime)
                     setCurrentClaim(0)
                     setRevisedClaims(data[currentQuestion + 1].claims.map(claim => claim.claim_string))
+                    setRevisedEvidences(data[currentQuestion + 1].claims.map(claim => claim.evidence))
                     setCurrentQuestion(currentQuestion + 1)
                     window.scrollTo(0, 0)
-                    const endTime = new Date()
-                    console.log(endTime - seconds)
-                    setSeconds(endTime)
-
                     setQuestionAnnotation(emptyQuestion)
                 }
             }
+            // submit final question
             else {
                 return () => {
                     if (questionAnnotation.usefulness === '') {
@@ -144,7 +174,7 @@ const AnnotationPage = (props) => {
                 </p>
                 <ProgressBar variant='primary' now={(currentClaim + 1) * 100.0 / data[currentQuestion].claims.length} style={{ width: '38rem', marginTop: '20px'}} />
                 </Alert> 
-                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} claimAnnotation={claimAnnotation} setClaimAnnotation={setClaimAnnotation} questionAnnotation={questionAnnotation} setQuestionAnnotation={setQuestionAnnotation}/> 
+                <ClaimEvidence claim={data[currentQuestion].claims[currentClaim].claim_string} evidence={data[currentQuestion].claims[currentClaim].evidence} currentClaim={currentClaim} revisedClaims={revisedClaims} setRevisedClaims={setRevisedClaims} revisedEvidences={revisedEvidences} setRevisedEvidences={setRevisedEvidences} claimAnnotation={claimAnnotation} setClaimAnnotation={setClaimAnnotation} questionAnnotation={questionAnnotation} setQuestionAnnotation={setQuestionAnnotation}/> 
                 </div>
         }
         else {
@@ -169,7 +199,7 @@ const AnnotationPage = (props) => {
                     <Card.Text>
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
-                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims ? revisedClaims.join('\n\n') : ''} onChange={answerChange}/> 
+                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')} onChange={answerChange}/> 
                             </Form.Group>
                         </Form>
                     </Card.Text>

@@ -16,11 +16,18 @@ const ClaimEvidence = (props) => {
             }
         })
         props.setRevisedClaims(newClaim)
-        const newState = {
-            ...props.questionAnnotation,
-        }
-        newState['revised_answer'] = newClaim.join('\n\n')
-        props.setQuestionAnnotation(newState)
+    }
+
+    const reviseEvidence = (text) => {
+        const newEvidence = props.revisedEvidences.map((c, i) => {
+            if (i === props.currentClaim) {
+                return text.target.value;
+            }
+            else {
+                return c;
+            }
+        })
+        props.setRevisedEvidences(newEvidence)
     }
 
     return (
@@ -34,6 +41,8 @@ const ClaimEvidence = (props) => {
                     <li> Complete: The claim is fully entailed by the evidence. </li>
                     <li> Partial: Not all facts in the claim are fully entailed by the evidence. </li>
                     <li> Incomplete: The evidence does not entail the claim at all. </li>
+                    <li> Missing: Does not contain any accompanying evidence. </li>
+                    <li> N/A: Link is inaccessible. </li>
                 </ol>
                 <p>
                 Note that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support. While judging support, you may be directed to very long documents. Please only skim the article and use Ctrl+F keyword searches to find relevant evidence.
@@ -48,20 +57,11 @@ const ClaimEvidence = (props) => {
                 If the evidence directs you to a link that is inaccessible, please mark it as <b>“N/A”.</b>
                 </p>
             </Alert>
-            <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete', 'Missing', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='support' />
+            <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete', 'Missing', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='support' currentClaim={props.currentClaim}/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
             </Alert>
             <Answerbox text="If partial support, provide the reason why" state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reason_missing_support'/>
-            <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                <p> <b>Reliability of Source: </b> Is the evidence found on a website you would consider reliable? </p>
-                <ol>
-                    <li> Reliable: Very reliable source. </li>
-                    <li> Somewhat reliable: It isn’t the most trustworthy source, but the source often contains factual information. </li>
-                    <li> Not reliable at all: This isn’t a source I would trust for work in my profession. </li>
-                </ol>
-            </Alert>
-            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reliability'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Informative: </b>  Is the claim relevant to answering the question? </p>
                 <ol>
@@ -72,15 +72,6 @@ const ClaimEvidence = (props) => {
                 </ol>
             </Alert>
             <Likert title="Informative" options={['Very relevant', 'A bit relevant', 'Not too important', 'Uninformative']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='informativeness'/>
-            <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                <p> <b>Worthiness: </b>  Is the claim necessary to be cited? </p>
-                <p> Note that if the claim states a commonly known fact or common sense, then it might not need to be supported by evidence. </p>
-                <ol>
-                    <li> Needs evidence </li>
-                    <li> Does not need evidence </li>
-                </ol>
-            </Alert>
-            <Likert title="Worthiness" options={['Needs evidence', 'Does not need evidence']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='worthiness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Correctness: </b> Is the claim factually correct?</p>
                 <ol>
@@ -99,7 +90,26 @@ const ClaimEvidence = (props) => {
             </Alert>
             <Likert title="Correctness" options={['Definitely correct', 'Probably correct', 'Unsure', 'Likely incorrect', 'Definitely incorrect']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='correctness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-            4) <b> Claim Revision: </b> Please edit the above claim to ensure that it is factually correct and is supported by reliable references. If the claim is not informative, simply delete the text in the edited claim textbox.
+                <p> <b>Reliability of Source: </b> Is the evidence found on a website you would consider reliable? </p>
+                <ol>
+                    <li> Reliable: Very reliable source. </li>
+                    <li> Somewhat reliable: It isn’t the most trustworthy source, but the source often contains factual information. </li>
+                    <li> Not reliable at all: This isn’t a source I would trust for work in my profession. </li>
+                </ol>
+            </Alert>
+            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reliability'/>
+            <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+                <p> <b>Worthiness: </b>   Is it necessary to support the claim with appropriate evidence? </p>
+                <p> Note that if the claim states a commonly known fact or common sense, then it might not need to be supported by evidence. </p>
+                <ol>
+                    <li> Needs evidence </li>
+                    <li> Does not need evidence </li>
+                </ol>
+            </Alert>
+            <Likert title="Worthiness" options={['Yes', 'No']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='worthiness'/>
+            <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+            4) <b> Claim Revision: </b>  Please edit the above claim to ensure that it is factually correct and is supported by reliable references. Feel free to edit any text in the claim and the accompanying evidence. If the evidence is incorrect, substitute it with the correct evidence, to the best of your abilities. If the claim is not informative, simply delete the text in the edited claim textbox.
+
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <Card.Body>
@@ -113,7 +123,26 @@ const ClaimEvidence = (props) => {
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
                                 <div key={props.claim}>
-                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim + '\n\n' + props.evidence.join('\n')} onChange={reviseClaim}/>
+                                    <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={props.claim} onChange={reviseClaim}/>
+                                </div>
+                            </Form.Group>
+                        </Form>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+            <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
+                <Card.Body>
+                <Card.Title>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        {'Revise evidence below:'}
+                        <div style={{color: 'red', marginLeft: '3px', fontSize: '17px'}}> * </div>
+                    </div>
+                </Card.Title>
+                    <Card.Text>
+                        <Form style={{marginTop: '21px', width: '400px' }}>
+                            <Form.Group className="mb-3">
+                                <div key={props.claim}>
+                                    <Form.Control style={{height: '150px', width: '600px'}}as='textarea' defaultValue={props.evidence.join('\n')} onChange={reviseEvidence}/>
                                 </div>
                             </Form.Group>
                         </Form>

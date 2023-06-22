@@ -3,6 +3,7 @@ import {Card} from 'react-bootstrap';
 
 const Likert = (props) => {
     const options = []
+    
     const changeFunction = (event) => {
         const newState = {
             ...props.state,
@@ -12,8 +13,10 @@ const Likert = (props) => {
     }
     props.options?.map(option => options.push(
         <div onChange={changeFunction}>
-            <input required type="radio" value={option} id={option} name='option'/>
+        <form>
+            <input required type="radio" value={option} id={option} name='option' checked={(props.state[props.toChange] === option)}/>
             <label for={option} style={{marginLeft: '10px'}}> {option} </label><br></br>
+            </form>
         </div>
     ))
 
