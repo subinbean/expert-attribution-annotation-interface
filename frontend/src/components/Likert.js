@@ -12,14 +12,20 @@ const Likert = (props) => {
     }
     props.options?.map(option => options.push(
         <div onChange={changeFunction}>
-            <input type="radio" value={option} id={option} name='option'/>
+            <input required type="radio" value={option} id={option} name='option'/>
             <label for={option} style={{marginLeft: '10px'}}> {option} </label><br></br>
         </div>
     ))
+
     return (
         <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
             <Card.Body>
-                <Card.Title> {props.title} </Card.Title>
+                <Card.Title>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        {props.title}
+                        <div style={{color: 'red', marginLeft: '3px', fontSize: '17px'}}> * </div>
+                    </div>
+                </Card.Title>
                 <Card.Text>
                     <form>
                     <fieldset id={props.title}>

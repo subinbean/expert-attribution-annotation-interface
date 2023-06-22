@@ -9,29 +9,29 @@ const AnnotationPage = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const data = location.state.data
-    const [seconds, setSeconds] = useState(0)
+    const [seconds, setSeconds] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
     const [revisedClaims, setRevisedClaims] = useState(data[currentQuestion].claims.map(claim => claim.claim_string))
-    const [questionAnnotation, setQuestionAnnotation] = useState({
+    const emptyQuestion = {
         usefulness: '',
         revised_answer: '',
-    })
-    const [claimAnnotation, setClaimAnnotation] = useState({
+    }
+    const emptyClaim = {
         support: '',
         reason_missing_support: '',
-        reliability: '',
         informativeness: '',
+        correctness: '',
+        reliability: '',
         worthiness: '',
-        correctness: '' 
-    })
+    }
+    const [questionAnnotation, setQuestionAnnotation] = useState(emptyQuestion)
+    const [claimAnnotation, setClaimAnnotation] = useState(emptyClaim)
+    const [missingFields, setMissingFields] = useState([])
 
     useEffect(() => {
-        let interval = setInterval(() => {
-            setSeconds(seconds => seconds + 1)
-        }, 1000)
-        return () => clearInterval(interval);
-    }, [seconds])
+        setSeconds(new Date())
+    }, [])
 
     const buttonInstructions = () => {
         if (currentClaim < data[currentQuestion].claims.length - 1) {
@@ -63,27 +63,60 @@ const AnnotationPage = (props) => {
     const buttonAction = () => {
         if (currentClaim <= data[currentQuestion].claims.length - 1) {
             return () => {
-                console.log(revisedClaims)
-                // console.log(claimAnnotation)
+                // validation logic
+                const new_array = []
+                const mapping = {'support': 'Supported', 'reason_missing_support' : 'Reason for partial support', 'informativeness' : 'Informative', 'correctness': 'Correctness', 'reliability': 'Reliability of Source', 'worthiness': 'Worthiness'}
+                for (var field in claimAnnotation) {
+                    if (claimAnnotation[field] === '') {
+                        new_array.push(mapping[field])
+                    }
+                }
+                setMissingFields(new_array)
+                if (new_array.length > 0) {
+                    return () => {}
+                }
+                setMissingFields([])
+
                 const element = document.getElementById('claim-evidence-section')
                 element.scrollIntoView({ behavior: 'smooth'})
                 setCurrentClaim(currentClaim + 1)
-            }
-        }
-        else if (currentQuestion < data.length - 1) {
-            return () => {
-                console.log(revisedClaims)
-                setCurrentClaim(0)
-                setRevisedClaims(data[currentQuestion + 1].claims.map(claim => claim.claim_string))
-                setCurrentQuestion(currentQuestion + 1)
-
-                console.log(questionAnnotation)
-                window.scrollTo(0, 0)
+                setClaimAnnotation(emptyClaim)
             }
         }
         else {
-            return () => {
-                navigate('/submission')
+            if (currentQuestion < data.length - 1) {
+                return () => {
+                    if (questionAnnotation.usefulness === '') {
+                        setMissingFields(missingFields.concat('Usefulness'))
+                        return () => {}
+                    }
+                    if (missingFields.length > 0) {
+                        setMissingFields([])
+                    }
+                    setCurrentClaim(0)
+                    setRevisedClaims(data[currentQuestion + 1].claims.map(claim => claim.claim_string))
+                    setCurrentQuestion(currentQuestion + 1)
+                    window.scrollTo(0, 0)
+                    const endTime = new Date()
+                    console.log(endTime - seconds)
+                    setSeconds(endTime)
+
+                    setQuestionAnnotation(emptyQuestion)
+                }
+            }
+            else {
+                return () => {
+                    if (questionAnnotation.usefulness === '') {
+                        setMissingFields(missingFields.concat('Usefulness'))
+                        return () => {}
+                    }
+                    if (missingFields) {
+                        setMissingFields([])
+                    }
+                    const endTime = new Date()
+                    console.log(endTime - seconds)
+                    navigate('/submission')
+                }
             }
         }
     }
@@ -127,7 +160,12 @@ const AnnotationPage = (props) => {
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <Card.Body>
-                    <Card.Title> {'Revise answer below:'} </Card.Title>
+                <Card.Title>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        {'Revise answer below:'}
+                        <div style={{color: 'red', marginLeft: '3px', fontSize: '17px'}}> * </div>
+                    </div>
+                </Card.Title>
                     <Card.Text>
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
@@ -138,6 +176,12 @@ const AnnotationPage = (props) => {
                 </Card.Body>
             </Card>
             </div>
+        }
+    }
+
+    const renderAlert = () => {
+        if (missingFields.length > 0) {
+            return <Alert variant="danger" style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}> Please submit the following required fields before submitting: {missingFields.join(', ')} </Alert>
         }
     }
 
@@ -157,6 +201,7 @@ const AnnotationPage = (props) => {
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 {buttonInstructions()}
             </Alert>
+            {renderAlert()}
             <div className="buttons"> 
                 <Button variant='outline-primary' style={{marginRight: '216px'}}onClick={() => navigate('/')}> Previous </Button>
                 <Button variant='outline-primary' style={{marginLeft: '216px'}}onClick={buttonAction()}> {buttonText()} </Button>

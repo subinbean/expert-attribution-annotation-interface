@@ -103,7 +103,12 @@ const ClaimEvidence = (props) => {
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <Card.Body>
-                    <Card.Title> {'Revise claim below:'} </Card.Title>
+                <Card.Title>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        {'Revise claim below:'}
+                        <div style={{color: 'red', marginLeft: '3px', fontSize: '17px'}}> * </div>
+                    </div>
+                </Card.Title>
                     <Card.Text>
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
