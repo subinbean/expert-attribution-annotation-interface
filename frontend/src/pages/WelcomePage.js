@@ -1,20 +1,32 @@
 import {useState} from 'react'
 import "./pagesStyle.css"
 import { useNavigate } from "react-router-dom"
-import {Card, Button, Form} from 'react-bootstrap';
+import {Card, Button, Form, Alert} from 'react-bootstrap';
 import axios from 'axios'
 
 const WelcomePage = () => {
     const navigate = useNavigate()
     const [prolificId, setProlificId] = useState('')
+    const [alert, setAlert] = useState(false)
     const baseUrl = `/api/questions/${prolificId}`
 
     const onClick = (e) => {
         e.preventDefault()
         axios.get(baseUrl)
-        .then(response => {
-            navigate('/questions', {state: {data: response.data}})
+        .then(response => { 
+            if (response.data.length === 0) {
+                setAlert(true)
+            }
+            else {
+                navigate('/questions', {state: {data: response.data}})
+            }
         }).catch(error => console.log(error))
+    }
+
+    const renderAlert = () => {
+        if (alert) {
+            return <Alert variant="danger" style={{ width: '50rem', marginTop: '20px', textAlign: 'left'}}> No questions match the provided ID in the database </Alert>
+        }
     }
 
     return (
@@ -59,6 +71,7 @@ const WelcomePage = () => {
                     </Card.Text>
                 </Card.Body>
             </Card>
+            {renderAlert()}
                 <Button variant='outline-primary' onClick={onClick} style={{ marginTop: '20px'}} > Submit and start task </Button>
         </div>
     )
