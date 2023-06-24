@@ -71,6 +71,9 @@ const AnnotationPage = (props) => {
                 const mapping = {'support': 'Supported', 'reason_missing_support' : 'Reason for partial support', 'informativeness' : 'Informative', 'correctness': 'Correctness', 'reliability': 'Reliability of Source', 'worthiness': 'Worthiness'}
                 for (var field in claimAnnotation) {
                     if (claimAnnotation[field] === '') {
+                        if (field === 'reason_missing_support' && claimAnnotation.support !== 'Partial') {
+                            continue
+                        }
                         new_array.push(mapping[field])
                     }
                 }
@@ -83,7 +86,7 @@ const AnnotationPage = (props) => {
                 console.log(claimAnnotation)
 
                 // api call
-                axios.patch(`/api/annotate/question/${data[currentQuestion]._id}/claim/${currentClaim}`, claimAnnotation).then(response => {
+                axios.patch(`/api/annotate/question/${data[currentQuestion]._id}/claim/${currentClaim}`, {...claimAnnotation, revised_claim: revisedClaims[currentClaim], revised_evidence: revisedEvidences[currentClaim]}).then(response => {
                     console.log(response)
                 }).catch(error => console.log(error))
 

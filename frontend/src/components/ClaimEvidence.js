@@ -59,7 +59,7 @@ const ClaimEvidence = (props) => {
             </Alert>
             <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete', 'Missing', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='support' currentClaim={props.currentClaim}/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                If the claim is partially supported, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
+                If the claim is <b> partially supported </b>, we ask you to write 1 sentence stating the reason why this is the case. First, mention the span(s) of the claim that is not fully supported, then describe why it is not fully supported.
             </Alert>
             <Answerbox text="If partial support, provide the reason why" state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reason_missing_support'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
