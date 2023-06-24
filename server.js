@@ -45,7 +45,7 @@ app.patch('/api/annotate/question/:question_id', (request, response) => {
 app.patch('/api/annotate/question/:question_id/claim/:claim_id', (request, response) => {
     const key = `claims.${request.params.claim_id}`
     const body = request.body
-    Question.findByIdAndUpdate(request.params.question_id, {$set: {[key + '.support']: body.support, [key + '.reason_missing_support']: body.reason_missing_support, [key + '.informativeness']: body.informativeness, [key + '.correctness']: body.correctness, [key + '.reliability']: body.reliability, [key + '.worthiness']: body.worthiness}}).then(question => {
+    Question.findByIdAndUpdate(request.params.question_id, {$set: {[key + '.support']: body.support, [key + '.reason_missing_support']: body.reason_missing_support, [key + '.informativeness']: body.informativeness, [key + '.correctness']: body.correctness, [key + '.reliability']: body.reliability, [key + '.worthiness']: body.worthiness, [key + '.revised_claim'] : body.revised_claim, [key + '.revised_evidence']: body.revised_evidence}}).then(question => {
         response.json(question)
     }).catch(error => response.json(error))
 })
