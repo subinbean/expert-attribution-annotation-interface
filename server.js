@@ -27,10 +27,10 @@ app.use(express.static('build'))
 // })
 
 // get all questions and claim data from a specific annotator (given an id)
-app.get('/api/questions/:annotator_id', (request, response, next) => {
+app.get('/api/questions/:annotator_id', (request, response) => {
     Question.find({annotator_id: request.params.annotator_id}).then(questions => {
         response.json(questions)
-    }).catch(error => next(error))
+    }).catch(error => response.json(error))
 })
 
 // annotate question
