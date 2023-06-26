@@ -31,5 +31,5 @@ const question = new mongoose.Schema({
     time_spent: Number
 })
 
-module.exports = mongoose.model('Question', question, 'expert-pilot')
+module.exports = mongoose.model('Question', question, 'expertqa-test')
 

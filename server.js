@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const path = require('path')
 require('dotenv').config()
 
 const app = express()
@@ -26,8 +27,14 @@ app.use(express.static('build'))
 //     })
 // })
 
+// route redirection for react router
+app.get('/questions', (request, response) => {
+    response.sendFile(path.join(__dirname, '/build/index.html'))
+})
+
 // get all questions and claim data from a specific annotator (given an id)
 app.get('/api/questions/:annotator_id', (request, response) => {
+    console.log('here')
     Question.find({annotator_id: request.params.annotator_id}).then(questions => {
         response.json(questions)
     }).catch(error => response.json(error))
