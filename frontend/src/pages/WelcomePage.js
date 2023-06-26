@@ -18,7 +18,14 @@ const WelcomePage = () => {
                 setAlert(true)
             }
             else {
-                navigate('/questions', {state: {data: response.data}})
+                const todoQuestions = response.data.filter(question => !question.completed)
+                console.log(todoQuestions)
+                if (todoQuestions.length === 0) {
+                    navigate('/submission')
+                }
+                else {
+                    navigate('/questions', {state: {data: todoQuestions}})
+                }
             }
         }).catch(error => console.log(error))
     }

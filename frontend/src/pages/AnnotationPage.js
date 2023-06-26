@@ -10,6 +10,7 @@ const AnnotationPage = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const data = location.state.data
+    console.log(data)
     const [seconds, setSeconds] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
@@ -114,11 +115,12 @@ const AnnotationPage = (props) => {
 
                     console.log(questionAnnotation)
 
-                    /// api call
+                    // api call
                     const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
                     const endTime = new Date()
 
                     axios.patch(`/api/annotate/question/${data[currentQuestion]._id}`, {
+                        completed: true,
                         usefulness: questionAnnotation.usefulness,
                         revised_answer: revisedAnswer,
                         time_spent: endTime - seconds
@@ -139,15 +141,29 @@ const AnnotationPage = (props) => {
             // submit final question
             else {
                 return () => {
+                    // validation logic
                     if (questionAnnotation.usefulness === '') {
                         setMissingFields(missingFields.concat('Usefulness'))
                         return () => {}
                     }
-                    if (missingFields) {
+                    if (missingFields.length > 0) {
                         setMissingFields([])
                     }
+
+                    // api call
+                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
                     const endTime = new Date()
                     console.log(endTime - seconds)
+
+                    axios.patch(`/api/annotate/question/${data[currentQuestion]._id}`, {
+                        completed: true,
+                        usefulness: questionAnnotation.usefulness,
+                        revised_answer: revisedAnswer,
+                        time_spent: endTime - seconds
+                    }).then (response => {
+                        console.log(response)
+                    }).catch(error => console.log(error))
+
                     navigate('/submission')
                 }
             }
