@@ -18,7 +18,7 @@ const question = new mongoose.Schema({
     question_string: String,
     answer_string: String,
     attribution: [String],
-    answer_origin_model: Number,
+    answer_origin_model: String,
     annotator_id: String,
     metadata: {
         question_type: String,
