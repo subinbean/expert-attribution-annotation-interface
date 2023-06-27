@@ -45,7 +45,7 @@ const ClaimEvidence = (props) => {
                     <li> N/A: Link is inaccessible. </li>
                 </ol>
                 <p>
-                Note that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support. While judging support, you may be directed to very long documents. Please only skim the article and use Ctrl+F keyword searches to find relevant evidence.
+                Note that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support. While judging support, you may be directed to very long documents. Please only skim the article and use Ctrl+F keyword searches to find relevant evidence. Please also restrict to the webpages you are redirected to, without browsing the website further.
                 </p>
                 <p>
                 If the evidence includes multiple documents, please judge the support for the claim collectively using all documents.
@@ -95,20 +95,21 @@ const ClaimEvidence = (props) => {
                     <li> Reliable: Very reliable source. </li>
                     <li> Somewhat reliable: It isn’t the most trustworthy source, but the source often contains factual information. </li>
                     <li> Not reliable at all: This isn’t a source I would trust for work in my profession. </li>
+                    <li> N/A: No evidence provided. </li>
                 </ol>
             </Alert>
-            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reliability'/>
+            <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reliability'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> <b>Worthiness: </b>   Is it necessary to support the claim with appropriate evidence? </p>
                 <p> Note that if the claim states a commonly known fact or common sense, then it might not need to be supported by evidence. </p>
                 <ol>
-                    <li> Needs evidence </li>
-                    <li> Does not need evidence </li>
+                    <li> Yes </li>
+                    <li> No </li>
                 </ol>
             </Alert>
             <Likert title="Worthiness" options={['Yes', 'No']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='worthiness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-            4) <b> Claim Revision: </b>  Please edit the above claim to ensure that it is factually correct and is supported by reliable references. Feel free to edit any text in the claim and the accompanying evidence. If the evidence is incorrect, substitute it with the correct evidence, to the best of your abilities. If the claim is not informative, simply delete the text in the edited claim textbox.
+            4) <b> Claim Revision: </b>  Please edit the above claim to ensure that it is <b> factually correct </b> and is <b> supported by reliable references. </b> Feel free to edit any text in the claim and the accompanying evidence. If the evidence is incorrect, substitute it with the correct evidence, to the best of your abilities. If the claim is not informative, simply delete the text in the edited claim textbox.
 
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>

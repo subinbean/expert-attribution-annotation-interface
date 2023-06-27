@@ -10,12 +10,11 @@ const AnnotationPage = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const data = location.state.data
-    console.log(data)
     const [seconds, setSeconds] = useState()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
     const [revisedClaims, setRevisedClaims] = useState(data[currentQuestion].claims.map(claim => claim.claim_string))
-    const [revisedEvidences, setRevisedEvidences] = useState(data[currentQuestion].claims.map(claim => claim.evidence))
+    const [revisedEvidences, setRevisedEvidences] = useState(data[currentQuestion].claims.map(claim => claim.evidence.join('\n')))
     const emptyQuestion = {
         usefulness: '',
         revised_answer: '',
@@ -86,6 +85,11 @@ const AnnotationPage = (props) => {
 
                 console.log(claimAnnotation)
 
+                axios.interceptors.request.use(request => {
+                    console.log('Starting Request', JSON.stringify(request, null, 2))
+                    return request
+                  })
+
                 // api call
                 axios.patch(`/api/annotate/question/${data[currentQuestion]._id}/claim/${currentClaim}`, {...claimAnnotation, revised_claim: revisedClaims[currentClaim], revised_evidence: revisedEvidences[currentClaim]}).then(response => {
                     console.log(response)
@@ -132,7 +136,7 @@ const AnnotationPage = (props) => {
                     setSeconds(endTime)
                     setCurrentClaim(0)
                     setRevisedClaims(data[currentQuestion + 1].claims.map(claim => claim.claim_string))
-                    setRevisedEvidences(data[currentQuestion + 1].claims.map(claim => claim.evidence))
+                    setRevisedEvidences(data[currentQuestion + 1].claims.map(claim => claim.evidence.join('\n')))
                     setCurrentQuestion(currentQuestion + 1)
                     window.scrollTo(0, 0)
                     setQuestionAnnotation(emptyQuestion)
@@ -184,7 +188,7 @@ const AnnotationPage = (props) => {
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> 3) Following this, you will be asked to annotate the individual claims contained in the answer. 
                 Each claim is a sentence, accompanied with the evidence for the sentence returned by the system. 
-                The evidence can be presented in the form of a URL to a webpage, or a set of paragraphs. </p>
+                The evidence can be presented in the form of 1) URL(s) to webpages that you may need to open, or 2) URL(s) accompanied with a relevant passage from each webpage. In the latter case, you do not need to open the links. </p>
                 <p>
                     You are on <b> question {currentQuestion + 1}</b>. This question has <b> {data[currentQuestion].claims.length} claims. </b>
                 </p>
