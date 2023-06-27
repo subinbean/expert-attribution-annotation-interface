@@ -120,7 +120,7 @@ const AnnotationPage = (props) => {
                     console.log(questionAnnotation)
 
                     // api call
-                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
+                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n<Evidences>\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
                     const endTime = new Date()
 
                     axios.patch(`/api/annotate/question/${data[currentQuestion]._id}`, {
@@ -155,7 +155,7 @@ const AnnotationPage = (props) => {
                     }
 
                     // api call
-                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
+                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n<Evidences>\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
                     const endTime = new Date()
                     console.log(endTime - seconds)
 
@@ -205,9 +205,6 @@ const AnnotationPage = (props) => {
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> 5) <b> Answer Revision </b> : Based on the changes to the individual claims, this is your edited answer. Would you like to add, edit or delete it any further? Note that we require the answer to be <b>factual</b>, <b>complete</b> and <b> supported by evidence.</b></p>
                 <p>
-                After annotating each claim, you will be presented a revised answer with your edited claims. The text box is pre-filled with the edited claims, and we ask you to further edit the answer to be <b>factual</b>, <b>complete</b> and <b> supported by evidence.</b>
-                </p>
-                <p>
                 Note that all informative claims, worthy of citations, deserve to be cited. However, finding evidence for claims is non-trivial, so we request that you make a best-effort attempt at providing evidence for claims where it’s missing or incorrect.
                 </p>
             </Alert>
@@ -222,7 +219,7 @@ const AnnotationPage = (props) => {
                     <Card.Text>
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
-                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims.join('\n') + '\n\n' + revisedEvidences.join('\n')} onChange={answerChange}/> 
+                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims.join('\n') + '\n\n<Evidences>\n' + revisedEvidences.join('\n\n')} onChange={answerChange}/> 
                             </Form.Group>
                         </Form>
                     </Card.Text>
@@ -241,7 +238,7 @@ const AnnotationPage = (props) => {
     return (
         <div align="center"> 
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                <p> <h3> Expert Attribution: Stage 2 </h3></p>
+                <p> <h3> Expert Evaluation of AI Answers: Stage 2 </h3></p>
                 <p>
                     This task has <b> {data.length} questions. </b>
                 </p>

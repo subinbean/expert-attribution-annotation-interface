@@ -42,7 +42,7 @@ const WelcomePage = () => {
                 <Card.Body>
                     <Card.Title> <b> Stage 2: Detailed Instructions </b> </Card.Title>
                     <Card.Text style={{textAlign: 'left'}}>
-                        <p> Thank you for your interest in our task! We are conducting a study to understand how experts 
+                        <p> Thank you for your interest in our task! We are a group of researchers at the University of Pennsylvania conducting a study to understand how experts 
                         from various fields use AI / large language models in information-seeking scenarios. We are particularly 
                         interested in evaluating the accuracy and factual correctness of answers produced by such systems. We are inviting 
                         participants who are professionals / experts in these fields: </p>
