@@ -188,7 +188,7 @@ const AnnotationPage = (props) => {
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> 3) Following this, you will be asked to annotate the individual claims contained in the answer. 
                 Each claim is a sentence, accompanied with the evidence for the sentence returned by the system. 
-                The evidence can be presented in the form of 1) URL(s) to webpages that you may need to open, or 2) URL(s) accompanied with a relevant passage from each webpage. In the latter case, you do not need to open the links. </p>
+                The evidence can be presented in the form of 1) URL(s) to webpages that you may need to open, or 2) URL(s) accompanied with a relevant passage from each webpage. <b> If you are given a URL & a passage, you should judge support just based on the passage. </b>The URL is provided simply for more context. </p>
                 <p>
                     You are on <b> question {currentQuestion + 1}</b>. This question has <b> {data[currentQuestion].claims.length} claims. </b>
                 </p>
