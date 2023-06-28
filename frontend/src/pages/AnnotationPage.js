@@ -14,7 +14,7 @@ const AnnotationPage = (props) => {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [currentClaim, setCurrentClaim] = useState(0)
     const [revisedClaims, setRevisedClaims] = useState(data[currentQuestion].claims.map(claim => claim.claim_string))
-    const [revisedEvidences, setRevisedEvidences] = useState(data[currentQuestion].claims.map(claim => claim.evidence.join('\n')))
+    const [revisedEvidences, setRevisedEvidences] = useState(data[currentQuestion].claims.map(claim => claim.evidence.join('\n\n')))
     const emptyQuestion = {
         usefulness: '',
         revised_answer: '',
@@ -46,19 +46,19 @@ const AnnotationPage = (props) => {
             return <div> Move onto the next question! </div> 
         }
         else {
-            return <div> You are now done with all the questions and this task! Press submit for the redemption code. </div> 
+            return <div> You are now done with all the questions and this task! Press submit for the completion code. </div> 
         }
     }
 
     const buttonText = () => {
         if (currentClaim <= data[currentQuestion].claims.length - 1) {
-            return 'Submit claim' 
+            return (<Button variant='outline-primary' style={{marginLeft: '520px'}}onClick={buttonAction()}> Submit claim </Button>)
         }
         else if (currentQuestion < data.length - 1) {
-            return 'Submit question'
+            return (<Button variant='outline-primary' style={{marginLeft: '495px'}}onClick={buttonAction()}> Submit question </Button>)
         }
         else {
-            return 'Submit question and finish task'
+            return (<Button variant='outline-primary' style={{marginLeft: '390px'}}onClick={buttonAction()}> Submit question and finish task </Button>)
         }
     }
 
@@ -83,16 +83,16 @@ const AnnotationPage = (props) => {
                 }
                 setMissingFields([])
 
-                console.log(claimAnnotation)
+                // console.log(claimAnnotation)
 
                 axios.interceptors.request.use(request => {
-                    console.log('Starting Request', JSON.stringify(request, null, 2))
+                    // console.log('Starting Request', JSON.stringify(request, null, 2))
                     return request
                   })
 
                 // api call
                 axios.patch(`/api/annotate/question/${data[currentQuestion]._id}/claim/${currentClaim}`, {...claimAnnotation, revised_claim: revisedClaims[currentClaim], revised_evidence: revisedEvidences[currentClaim]}).then(response => {
-                    console.log(response)
+                    // console.log(response)
                 }).catch(error => console.log(error))
 
                 // rescroll & state updates
@@ -100,8 +100,8 @@ const AnnotationPage = (props) => {
                 element.scrollIntoView({ behavior: 'smooth'})
                 setCurrentClaim(currentClaim + 1)
                 setClaimAnnotation(emptyClaim)
-                console.log(revisedClaims)
-                console.log(revisedEvidences)
+                // console.log(revisedClaims)
+                // console.log(revisedEvidences)
             }
         }
         // submit question
@@ -117,10 +117,10 @@ const AnnotationPage = (props) => {
                         setMissingFields([])
                     }
 
-                    console.log(questionAnnotation)
+                    // console.log(questionAnnotation)
 
                     // api call
-                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n<Evidences>\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
+                    const revisedAnswer = questionAnnotation.revised_answer === '' ? ('<Answer>\n\n' + revisedClaims.join('\n') + '\n\n<Evidences>\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
                     const endTime = new Date()
 
                     axios.patch(`/api/annotate/question/${data[currentQuestion]._id}`, {
@@ -129,14 +129,14 @@ const AnnotationPage = (props) => {
                         revised_answer: revisedAnswer,
                         time_spent: endTime - seconds
                     }).then (response => {
-                        console.log(response)
+                        // console.log(response)
                     }).catch(error => console.log(error))
 
                     // rescroll & state updates
                     setSeconds(endTime)
                     setCurrentClaim(0)
                     setRevisedClaims(data[currentQuestion + 1].claims.map(claim => claim.claim_string))
-                    setRevisedEvidences(data[currentQuestion + 1].claims.map(claim => claim.evidence.join('\n')))
+                    setRevisedEvidences(data[currentQuestion + 1].claims.map(claim => claim.evidence.join('\n\n')))
                     setCurrentQuestion(currentQuestion + 1)
                     window.scrollTo(0, 0)
                     setQuestionAnnotation(emptyQuestion)
@@ -155,9 +155,9 @@ const AnnotationPage = (props) => {
                     }
 
                     // api call
-                    const revisedAnswer = questionAnnotation.revised_answer === '' ? (revisedClaims.join('\n') + '\n\n<Evidences>\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
+                    const revisedAnswer = questionAnnotation.revised_answer === '' ? ('<Answer>\n\n' + revisedClaims.join('\n') + '\n\n<Evidences>\n\n' + revisedEvidences.join('\n')) : questionAnnotation.revised_answer
                     const endTime = new Date()
-                    console.log(endTime - seconds)
+                    // console.log(endTime - seconds)
 
                     axios.patch(`/api/annotate/question/${data[currentQuestion]._id}`, {
                         completed: true,
@@ -165,7 +165,7 @@ const AnnotationPage = (props) => {
                         revised_answer: revisedAnswer,
                         time_spent: endTime - seconds
                     }).then (response => {
-                        console.log(response)
+                        // console.log(response)
                     }).catch(error => console.log(error))
 
                     navigate('/submission')
@@ -219,7 +219,7 @@ const AnnotationPage = (props) => {
                     <Card.Text>
                         <Form style={{marginTop: '21px', width: '400px' }}>
                             <Form.Group className="mb-3">
-                                <Form.Control style={{height: '200px', width: '600px'}}as='textarea' defaultValue={revisedClaims.join('\n') + '\n\n<Evidences>\n' + revisedEvidences.join('\n\n')} onChange={answerChange}/> 
+                                <Form.Control style={{height: '500px', width: '600px'}}as='textarea' defaultValue={'<Answer>\n\n' + revisedClaims.join('\n') + '\n\n<Evidences>\n\n' + revisedEvidences.join('\n\n')} onChange={answerChange}/> 
                             </Form.Group>
                         </Form>
                     </Card.Text>
@@ -244,7 +244,7 @@ const AnnotationPage = (props) => {
                 </p>
                  Current Question: {currentQuestion + 1} out of {data.length}
             <ProgressBar variant='primary' now={(currentQuestion + 1) * 100.0 / data.length} style={{ width: '38rem', marginTop: '20px', marginBottom: '20px'}} />
-            <p> Follow the instructions carefully! </p>
+            <p> Make sure to <b> follow the instructions carefully </b> and submit all the questions! If an <b>error</b> occurs in the interface, just click on the link again and provide your ID. </p>
             </Alert>
             <QuestionAnswer question={data[currentQuestion].question_string} answer={data[currentQuestion].answer_string} questionAnnotation={questionAnnotation} setQuestionAnnotation={setQuestionAnnotation}/>
             {renderClaimEvidence()}
@@ -253,8 +253,7 @@ const AnnotationPage = (props) => {
             </Alert>
             {renderAlert()}
             <div className="buttons"> 
-                <Button variant='outline-primary' style={{marginRight: '216px'}}onClick={() => navigate('/')}> Previous </Button>
-                <Button variant='outline-primary' style={{marginLeft: '216px'}}onClick={buttonAction()}> {buttonText()} </Button>
+                {buttonText()}
             </div>
         </div>
     )

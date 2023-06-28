@@ -27,9 +27,9 @@ const Answerbox= (props) => {
                 </div>
             </Card.Title>
             <Card.Text>
-                <Form style={{marginTop: '21px', width: '400px' }}>
+                <Form style={{marginTop: '21px', width: '400px'}}>
                     <Form.Group className="mb-3">
-                        <Form.Control as='textarea' value={props.state.reason_missing_support} onChange={changeFunction}/>
+                        <Form.Control as='textarea' value={props.state.reason_missing_support} style={{width: '500px', height: '200px'}}onChange={changeFunction}/>
                     </Form.Group>
                 </Form>
             </Card.Text>

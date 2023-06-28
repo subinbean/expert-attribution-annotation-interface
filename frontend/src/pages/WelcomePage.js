@@ -68,6 +68,7 @@ const WelcomePage = () => {
                         </p>
 
                         <p> The current task is the <b> stage 2 </b> of the study. </p>
+                        <p> <font color="maroon"> <b>**Before moving on, please watch the following instruction video for this task <a href="https://www.loom.com/share/29690d5feb9b4663b77e2dc807a6b0b9?sid=2b00e524-3f02-4c60-a260-73cb32e9b15e" target="_blank" rel="noreferrer noopener"> here</a> ** </b> </font> </p>
 
                         Please enter your prolific ID down below to begin task 2:
                         <Form style={{marginTop: '10px', width: '400px'}} onSubmit={onClick}>
