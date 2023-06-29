@@ -188,7 +188,9 @@ const AnnotationPage = (props) => {
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> 3) Following this, you will be asked to annotate the individual claims contained in the answer. 
                 Each claim is a sentence, accompanied with the evidence for the sentence returned by the system. 
-                The evidence can be presented in the form of 1) URL(s) to webpages that you may need to open, or 2) URL(s) accompanied with a relevant passage from each webpage. <b> If you are given a URL & a passage, you should judge support just based on the passage. </b>The URL is provided simply for more context. </p>
+                The evidence can be presented in the form of 1) URL(s) to webpages that you may need to open, or 2) URL(s) accompanied with a relevant passage from each webpage. </p> 
+                <p> <b> If you are given a URL, open the link </b>to answer the questions. </p> 
+                <p> <b> If you are given a passage and a URL</b>, you should judge support <b> just based on the passage. </b> The URL is provided simply for more context. </p>
                 <p>
                     You are on <b> question {currentQuestion + 1}</b>. This question has <b> {data[currentQuestion].claims.length} claims. </b>
                 </p>
@@ -203,7 +205,7 @@ const AnnotationPage = (props) => {
         else {
             return <div>
                 <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-                <p> 5) <b> Answer Revision </b> : Based on the changes to the individual claims, this is your edited answer. Would you like to add, edit or delete it any further? Note that we require the answer to be <b>factual</b>, <b>complete</b> and <b> supported by evidence.</b></p>
+                <p> 5) <b> Answer Revision </b> : Based on the changes to the individual claims, this is your edited answer. Would you like to add, edit or delete it any further? Note that we require the answer to be <b>factual</b>, <b>complete</b> and <b> supported by reliable evidence.</b></p>
                 <p>
                 Note that all informative claims, worthy of citations, deserve to be cited. However, finding evidence for claims is non-trivial, so we request that you make a best-effort attempt at providing evidence for claims where it’s missing or incorrect.
                 </p>

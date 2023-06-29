@@ -45,7 +45,12 @@ const ClaimEvidence = (props) => {
                     <li> N/A: Link is inaccessible. </li>
                 </ol>
                 <p>
-                Note that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support. While judging support, you may be directed to very long documents. Please only skim the article and use Ctrl+F keyword searches to find relevant evidence. Please also restrict to the webpages you are redirected to, without browsing the website further.
+                    <b>
+                    Note that we are not asking you to judge whether the claim is correct, simply whether the claim is entailed by the evidence, even if it comes from an unreliable source.
+                    </b>
+                </p>
+                <p>
+                Note also that you can assume that certain common sense facts don’t need to be explicitly stated in the evidence to judge support. While judging support, you may be directed to very long documents. Please only skim the article and use Ctrl+F keyword searches to find relevant evidence. Please also restrict to the webpages you are redirected to, without browsing the website further.
                 </p>
                 <p>
                 If the evidence includes multiple documents, please judge the support for the claim collectively using all documents.
@@ -60,7 +65,7 @@ const ClaimEvidence = (props) => {
             <Likert title="Supported" options={['Complete', 'Partial', 'Incomplete', 'Missing', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='support' currentClaim={props.currentClaim}/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p>If the claim is <b> partially supported </b>, we ask you to write 1 sentence stating the reason why this is the case. First, mention the phrase(s) of the claim that is not fully supported, then describe why it is not fully supported. Use this format when providing the reason: </p>
-                <p>[“phrase1”: reason1, “phrase2”: reason2, ...], where “phrase1” and “phrase2” are the unsupported phrases (make sure they are in quotation marks) and reason1 (no need for quotation marks for the reason) is the reason for incomplete support for “phrase1”.</p>
+                <p><b>[“phrase1”: reason1, “phrase2”: reason2, ...]</b>, where “phrase1” and “phrase2” are the unsupported phrases (make sure they are in quotation marks) and reason1 (no need for quotation marks for the reason) is the reason for incomplete support for “phrase1”.</p>
             </Alert>
             <Answerbox text="If partial support, provide the reason why" state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reason_missing_support'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
@@ -99,6 +104,7 @@ const ClaimEvidence = (props) => {
                     <li> Missing: No evidence provided. </li>
                     <li> N/A: Link is inaccessible. </li>
                 </ol>
+                <p> In case there are multiple evidences, mark Reliable if there exists a subset of evidences which are all reliable. Edit the evidence in the Revise Evidence box below in part 4 accordingly. </p>
             </Alert>
             <Likert title="Reliable" options={['Reliable', 'Somewhat reliable', 'Not reliable at all', 'Missing', 'N/A']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='reliability'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
@@ -111,7 +117,7 @@ const ClaimEvidence = (props) => {
             </Alert>
             <Likert title="Worthiness" options={['Yes', 'No']} state={props.claimAnnotation} setState={props.setClaimAnnotation} toChange='worthiness'/>
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
-            4) <b> Claim Revision: </b>  Please edit the above claim to ensure that it is <b> factually correct </b> and is <b> supported by reliable references. </b> Feel free to edit any text in the claim and the accompanying evidence.  If the evidence is incorrect or insufficient, substitute or add to it with the correct evidence to the best of your abilities by adding urls. If the claim is not informative, simply delete the text in the edited claim textbox. If the evidence is not provided, you can just leave the box empty.
+            4) <b> Claim Revision: </b>  Please edit the above claim and evidences to ensure that the claim is <b> factually correct </b> and <b> supported by reliable references. </b> Feel free to add, change, or remove any text in the claim and evidences. <br></br><br></br> Note: If the claim is not informative, simply delete the text in the revise claim textbox. If the evidence is incorrect or insufficient, substitute or add to it with the correct evidence to the best of your abilities by adding urls.
             </Alert>
             <Card style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <Card.Body>
