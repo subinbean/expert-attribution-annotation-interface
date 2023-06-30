@@ -13,7 +13,7 @@ const QuestionAnswer = (props) => {
             <Alert style={{ width: '40rem', marginTop: '20px', textAlign: 'left'}}>
                 <p> 2) Judge whether the answer is useful to the question. Usefulness should be 
                 measured based on whether the answer is <b> at least partially answering the question. 
-                </b> If the answer is not useful at all, you can skip this question. </p>
+                </b> </p>
                 <ol>
                     <li> Useful: Answers most/all of the question. </li>
                     <li> Partially useful: Answers a subset of the question, or answers the question partially. </li>
