@@ -34,5 +34,5 @@ const question = new mongoose.Schema({
 module.exports = mongoose.model(
   "Question",
   question,
-  "expertqa-stage2-part1-0701-small"
+  "expertqa-stage2-part1-0701"
 );

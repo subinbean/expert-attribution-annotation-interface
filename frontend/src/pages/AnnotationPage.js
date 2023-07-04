@@ -125,10 +125,10 @@ const AnnotationPage = (props) => {
         }
         setMissingFields([]);
 
-        // console.log(claimAnnotation)
+        // console.log(claimAnnotation);
 
         axios.interceptors.request.use((request) => {
-          // console.log('Starting Request', JSON.stringify(request, null, 2))
+          //   console.log("Starting Request", JSON.stringify(request, null, 2));
           return request;
         });
 
@@ -143,7 +143,7 @@ const AnnotationPage = (props) => {
             }
           )
           .then((response) => {
-            // console.log(response)
+            // console.log(response);
           })
           .catch((error) => console.log(error));
 
