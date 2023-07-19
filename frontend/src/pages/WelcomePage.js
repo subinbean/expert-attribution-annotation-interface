@@ -77,47 +77,28 @@ const WelcomePage = () => {
           <Card.Text style={{ textAlign: "left" }}>
             <p>
               {" "}
-              Thank you for your interest in our task! We are a group of
-              researchers at the University of Pennsylvania conducting a study
-              to understand how experts from various fields use AI / large
-              language models in information-seeking scenarios. We are
-              particularly interested in evaluating the accuracy and factual
-              correctness of answers produced by such systems. We are inviting
-              participants who are professionals / experts in these fields:{" "}
+              Thank you for <b>previously participating in stage 2 </b> of our
+              study! We are a group of researchers at the University of
+              Pennsylvania conducting a study to understand how experts from
+              various fields use AI / large language models in
+              information-seeking scenarios. We are interested in evaluating the
+              accuracy and factual correctness of answers produced by such
+              systems.{" "}
             </p>
             <p>
-              {" "}
-              [Anthropology / Architecture / Biology / Business / Chemistry /
-              Classical Studies / Criminology / Culinary Arts / Environmental
-              Science / Economics / Education / Engineering and Technology /
-              Geography / History / Journalism / Law / Linguistics / Literature
-              / Mathematics / Medicine / Music / Philosophy / Physics and
-              Astronomy / Political Science / Psychology / Theology / Sociology
-              / Visual Arts]{" "}
+              Just a reminder that in stage 2, we will show you an answer
+              produced by an AI system, and ask you to validate different
+              aspects of this answer. We will then ask you to revise this answer
+              to be factually correct and supported with accurate citations.
             </p>
             <p>
-              {" "}
-              The study will proceed in two stages and we would request you in
-              both stages.{" "}
-            </p>
-            <p>
-              <ol>
-                <li>
-                  Question Writing: We will ask you to write a question from
-                  your domain.
-                </li>
-                <li>
-                  Answer Validation and Revision: We will show you an answer
-                  produced by an AI system, and ask you to validate different
-                  aspects of this answer. We will then ask you to revise this
-                  answer to be factually correct and well-supported with
-                  citations.
-                </li>
-              </ol>
-            </p>
-            <p>
-              {" "}
-              The current task is the <b> stage 2 </b> of the study.{" "}
+              In this version of the task, we will first ask you to select{" "}
+              <b> your field </b> from the dropdown and then work on the
+              questions. A single study contains 2 questions, but you can feel
+              free to work on more than 2 if you wish (you can just use the same
+              link and select your field again). Please let us know if you work
+              on more than 2 questions and we will be happy to bonus you for
+              your time.
             </p>
             <p>
               <b>
@@ -129,22 +110,21 @@ const WelcomePage = () => {
               However, the time spent can vary across participants and across
               questions. If you end up spending more time than the allocated
               time, please feel free to let us know and we would be happy to
-              bonus you for the extra time spent. Please prioritize{" "}
-              <b> quality </b> and do not rush through the task. You will get a
-              completion code after you finish annotating all 3 questions.{" "}
+              bonus you for the extra time spent. Please prioritize quality and
+              do not rush through the task. You will get a completion code after
+              you finish annotating both questions.
             </p>
             <p>
               {" "}
               <font color="maroon">
                 {" "}
                 <b>
-                  **Before moving on, please watch the following instruction
-                  video for this task{" "}
+                  **If you haven’t already, please watch the following
+                  instruction video for this task{" "}
                   <a
                     href="https://www.loom.com/share/29690d5feb9b4663b77e2dc807a6b0b9?sid=2b00e524-3f02-4c60-a260-73cb32e9b15e"
                     target="_blank"
                     rel="noreferrer noopener">
-                    {" "}
                     here
                   </a>{" "}
                   **{" "}
