@@ -1,32 +1,52 @@
 import { useState } from "react";
 import "./pagesStyle.css";
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Form, Alert } from "react-bootstrap";
+import { Card, Button, Alert, Form } from "react-bootstrap";
 import axios from "axios";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
-  const [prolificId, setProlificId] = useState("");
   const [alert, setAlert] = useState(false);
-  const baseUrl = `/api/questions/${prolificId}`;
+  const [selectedField, setSelectedField] = useState("");
+  const fields = [
+    "Anthropology",
+    "Architecture",
+    "Aviation",
+    "Biology",
+    "Business",
+    "Chemistry",
+    "Classical Studies",
+    "Climate Science",
+    "Criminology",
+    "Culinary Arts",
+    "Economics",
+    "Education",
+    "Environmental Science",
+    "History",
+    "Journalism",
+    "Linguistics",
+    "Literature",
+    "Mathematics",
+    "Military or Law Enforcement",
+    "Music",
+    "Nuclear Science",
+    "Philosophy",
+    "Physics and Astronomy",
+    "Political Science",
+    "Psychology",
+    "Sociology",
+    "Visual Arts",
+  ];
 
   const onClick = (e) => {
     e.preventDefault();
     axios
-      .get(baseUrl)
+      .get(`/api/questions/field/${selectedField}`)
       .then((response) => {
         if (response.data.length === 0) {
           setAlert(true);
         } else {
-          const todoQuestions = response.data.filter(
-            (question) => !question.completed
-          );
-          console.log(todoQuestions);
-          if (todoQuestions.length === 0) {
-            navigate("/submission");
-          } else {
-            navigate("/questions", { state: { data: todoQuestions } });
-          }
+          navigate("/questions", { state: { data: response.data } });
         }
       })
       .catch((error) => console.log(error));
@@ -37,10 +57,10 @@ const WelcomePage = () => {
       return (
         <Alert
           variant="danger"
-          style={{ width: "50rem", marginTop: "20px", textAlign: "left" }}
-        >
+          style={{ width: "50rem", marginTop: "20px", textAlign: "left" }}>
           {" "}
-          No questions match the provided ID in the database{" "}
+          No questions matched the field you selected or all questions have been
+          answered in that field{" "}
         </Alert>
       );
     }
@@ -123,8 +143,7 @@ const WelcomePage = () => {
                   <a
                     href="https://www.loom.com/share/29690d5feb9b4663b77e2dc807a6b0b9?sid=2b00e524-3f02-4c60-a260-73cb32e9b15e"
                     target="_blank"
-                    rel="noreferrer noopener"
-                  >
+                    rel="noreferrer noopener">
                     {" "}
                     here
                   </a>{" "}
@@ -132,18 +151,15 @@ const WelcomePage = () => {
                 </b>{" "}
               </font>{" "}
             </p>
-            Please enter your prolific ID down below to begin task 2:
-            <Form
+            Please choose your field of expertise below to begin task 2:
+            <Form.Select
               style={{ marginTop: "10px", width: "400px" }}
-              onSubmit={onClick}
-            >
-              <Form.Group className="mb-3">
-                <Form.Control
-                  placeholder="Enter Prolific ID"
-                  onChange={(text) => setProlificId(text.target.value)}
-                />
-              </Form.Group>
-            </Form>
+              onChange={(field) => setSelectedField(field.target.value)}>
+              <option> Choose your field of expertise </option>
+              {fields.map((field) => (
+                <option> {field} </option>
+              ))}
+            </Form.Select>
           </Card.Text>
         </Card.Body>
       </Card>
@@ -151,8 +167,7 @@ const WelcomePage = () => {
       <Button
         variant="outline-primary"
         onClick={onClick}
-        style={{ marginTop: "20px" }}
-      >
+        style={{ marginTop: "20px" }}>
         {" "}
         Submit and start task{" "}
       </Button>

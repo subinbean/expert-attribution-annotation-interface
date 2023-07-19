@@ -31,4 +31,8 @@ const question = new mongoose.Schema({
   time_spent: Number,
 });
 
-module.exports = mongoose.model("Question", question, "expertqa-stage2-0710");
+module.exports = mongoose.model(
+  "Question",
+  question,
+  "expertqa-stage2-leftover"
+);
