@@ -8,7 +8,7 @@ Run `npm install` in both the root directory (backend) as well as the frontend d
 
 ### Running the app
 
-First, create a `.env` file in the root directory with a `PORT=` variable to specify what port you want the server to run as well as `MONGODB_URI=` variable to connect to a MongoDB database. Then, use `npm run dev` in the root folder to start the backend server. Finally, use `npm run` inside the frontend folder to start the frontend.
+First, create a `.env` file in the root directory with a `PORT=` variable to specify what port you want the server to run as well as `MONGODB_URI=` variable to connect to a MongoDB database. Then, use `npm run dev` in the root folder to start the backend server. Finally, use `npm start` inside the frontend folder to start the frontend.
 
 ### Stack
 
